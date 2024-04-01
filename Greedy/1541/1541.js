@@ -1,0 +1,12 @@
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+let input = fs.readFileSync(filePath).toString().trim().split('\n');
+//뺄셈(-) 연산자를 기준으로 나누어 여러 그룹 만들기
+let groups = input[0].split('-');
+let answer = 0;
+for (let i = 0; i < groups.length; i++) {
+  // 각 그룹 내부에서 덧셈(+) 연산 적용
+  let cur = groups[i].split('+').map(el => +el).reduce((acc, cur) => acc + cur);
+  if (i === 0) answer += cur; // 첫번째 그룹은 항상 덧셈(+)
+  else answer -= cur; // 두 번째 그룹부터 뺄셈(-);
+}
